@@ -1,0 +1,10 @@
+[
+    {
+        "treeItem": "Asistente de configuración de Commerce",
+        "pageType": "commerce"
+    },
+    {
+        "treeItem": "Asistente de configuración de Service",
+        "pageType": "service"
+    }
+]
