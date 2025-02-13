@@ -13,7 +13,9 @@ export class LoginPage extends BasePage{
     private emailInputSelector: Locator;
     private passwordInputSelector: Locator;
     private loginButtonSelector: Locator;
-
+    private errorMessageNoEmailSelector: Locator;
+    private errorMessagePopUpSelector: Locator;
+    private errorMessageNoPasswordSelector: Locator;
     /**
      * Creates an instance of LoginPage.
      * @param page - The Playwright Page object
@@ -23,8 +25,10 @@ export class LoginPage extends BasePage{
         this.emailInputSelector=page.locator('#userEmail');
         this.passwordInputSelector=page.locator('#userPassword');
         this.loginButtonSelector=page.getByRole('button', { name: 'Login' });
+        this.errorMessagePopUpSelector=page.locator("div[aria-label='Incorrect email or password.']");
+        this.errorMessageNoEmailSelector=page.getByText("*Email is required");
+        this.errorMessageNoPasswordSelector=page.getByText("*Password is required");
     }
-
     /**
      * Clicks the login button if visible.
      * @throws Error if login button is not visible
@@ -79,6 +83,48 @@ export class LoginPage extends BasePage{
         await this.clickLoginButton();
         return new DashBoardPage(this.page);
     }
+
+
+    /**
+     * Generic method to get error message text from a selector
+     * @param selector - The locator for the error message element
+     * @param context - Context for error message (used in error handling)
+     * @returns Promise<string> The error message text or default message if not found
+     * @throws Error if getting the message fails
+     */
+    private async getErrorMessage(selector: Locator, context: string): Promise<string> {
+        try {
+            const errorMessage: string | null = await selector.textContent({timeout: 3000});
+            return errorMessage || 'No error message found';
+        } catch (error) {
+            throw new Error(`Error getting ${context} message: ${error.message}`);
+        }
+    }
+
+    /**
+     * Gets the error message from the popup
+     */
+    async getErrorMessagePopUp(): Promise<string> {
+        return this.getErrorMessage(this.errorMessagePopUpSelector, 'popup error');
+    }
+
+    /**
+     * Gets the error message when email is missing
+     */
+    async getErrorMessageNoEmail(): Promise<string> {
+        return this.getErrorMessage(this.errorMessageNoEmailSelector, 'missing email');
+    }
+
+    /**
+     * Gets the error message when password is missing
+     */
+    async getErrorMessageNoPassword(): Promise<string> {
+        return this.getErrorMessage(this.errorMessageNoPasswordSelector, 'missing password');
+    }
+
+
+
+
 }
 
 // ... existing code ...

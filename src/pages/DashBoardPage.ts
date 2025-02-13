@@ -61,6 +61,7 @@ export class DashBoardPage extends BasePage{
 
     async getSearchResultsCount(): Promise<number> {
         const cards = await this.resultItemsSelector.all();
+        
         return cards.length;
     }
 
