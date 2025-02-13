@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "loginTest": "npx playwright test src/tests/login.spec.ts",
     "dashboardTest": "npx playwright test src/tests/dashboard.spec.ts",
     "e2e": "npx playwright test"
