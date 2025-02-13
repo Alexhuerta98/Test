@@ -37,7 +37,7 @@ jobs:
 
       # Step 5: Run Playwright tests
       - name: Run Playwright tests
-        run: npm run test
+        run: npm run loginTest
 
       # Step 6: Upload Test Artifacts (Optional: Useful for debugging test failures)
       - name: Upload Playwright Report
